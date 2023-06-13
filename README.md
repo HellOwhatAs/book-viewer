@@ -25,7 +25,7 @@ json format
 ```
 Example: https://hellowhatas.github.io/book-viewer/?json=example/龙王：世界的重启.json
 
-content string in json file is can contain html elements
+content string in json file is can contain html elements  
 Example: https://hellowhatas.github.io/book-viewer/?json=example/grad-cam.json
 
 ## Shortcut keys
