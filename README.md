@@ -1,4 +1,4 @@
-# novel viewer
+# book-viewer
 ## Input
 json format
 ```json
