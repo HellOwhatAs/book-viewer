@@ -151,7 +151,7 @@
                         cpt.classList.add("cpt");
                         cpt.title = elem[0];
                         content_data[elem[0]] = elem[1];
-                        cpt.appendChild(document.createTextNode(elem[0]));
+                        cpt.innerHTML = elem[0];
                         cpt.onclick = () => {
                             activated_cpt = cpt;
                             document.querySelectorAll(".cpt").forEach(elem => elem.classList.remove('activated'))
@@ -163,7 +163,7 @@
                             content.appendChild(title);
                             content_data[elem[0]].forEach(element => {
                                 var para = document.createElement("p");
-                                para.appendChild(document.createTextNode(element));
+                                para.innerHTML = element;
                                 content.appendChild(para);
                             });
                             ////////////////////////////////////////////
