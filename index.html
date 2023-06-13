@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style id="mycss">
+            #content{
+                margin-left: 15%;
+                margin-right: 15%;
+                background-color: bisque;
+                box-shadow: 2px 2px 2px black;
+                border-style: solid;
+                border-width: 0.1px;
+                font-family: "楷体";
+                color: black;
+            }
+            #content > p{
+                margin-left: 5%;
+                margin-right: 5%;
+                margin-top: 5%;
+                margin-bottom: 5%;
+                font-size: 20px;
+            }
+            #colors{
+                position: fixed;
+                left: 85%;
+                top: 0%;
+            }
+            #catalog{
+                position: fixed;
+                width: 13%;
+                height:100vh;
+                left: 0%;
+                top: 0%;
+                overflow: auto;
+            }
+            #catalog::-webkit-scrollbar { width: 0 !important }
+            #catalog > div.cpt{
+                width: 100%;
+                background-color: gray;
+                user-select: none;
+                margin-bottom: 2px;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+            }
+            #catalog > div.cpt.activated{
+                background-color: forestgreen;
+            }
+            #shrink{
+                position: fixed;
+                right: 85%;
+                left: 13%;
+                top: 0%;
+                background-color: violet;
+                user-select: none;
+                white-space: nowrap;
+            }
+        </style>
+    </head>
+    <body style="background-color: #A9A9A9;">
+        <div id="colors">
+            <input type="color" id="color_selector" value="#ffe4c4">
+            <br>
+            <input type="color" id="bg_color_selector" value="#A9A9A9">
+            <br>
+            <input type="color" id="ft_color_selector" value="#000000">
+        </div>
+        <div id="catalog"></div>
+        <div id="content"></div>
+        <div id="shrink">&emsp;</div>
+        <script>
+            var content_data = {};
+            var shrink = document.getElementById("shrink");
+            var content = document.getElementById("content");
+            var color_selector = document.getElementById("color_selector");
+            var bg_color_selector = document.getElementById("bg_color_selector");
+            var ft_color_selector = document.getElementById("ft_color_selector");
+            var catalog = document.getElementById("catalog");
+            var activated_cpt;
+            color_selector.onchange = () => {
+                content.style.backgroundColor = color_selector.value;
+            }
+            bg_color_selector.onchange = () => {
+                document.body.style.backgroundColor = bg_color_selector.value;
+                catalog
+            }
+            ft_color_selector.onchange = () => {
+                content.style.color = ft_color_selector.value;
+            }
+            shrink.onclick = () => {
+                if(shrink.style.left == "0%"){
+                    shrink.style.right = "85%";
+                    shrink.style.left = "13%";
+                    catalog.style.display = "block";
+                }
+                else{
+                    shrink.style.right = "98%";
+                    shrink.style.left = "0%";
+                    catalog.style.display = "none";
+                }
+            }
+
+            document.onkeydown = () => {
+                if(activated_cpt == null) return;
+                var cpt_target = null;
+                if(event.key == 'ArrowRight'){
+                    cpt_target = activated_cpt.nextSibling;
+                }
+                else if(event.key == 'ArrowLeft'){
+                    cpt_target = activated_cpt.previousSibling;
+                }
+                else if(event.key == '='){
+                    var fsize = parseInt(document.styleSheets[0].cssRules[1].style.fontSize);
+                    console.log(fsize);
+                    if(fsize >= 50)return;
+                    document.styleSheets[0].cssRules[1].style.fontSize = (fsize + 5) + "px"
+                }
+                else if(event.key == '-'){
+                    var fsize = parseInt(document.styleSheets[0].cssRules[1].style.fontSize);
+                    console.log(fsize);
+                    if(fsize <= 10)return;
+                    document.styleSheets[0].cssRules[1].style.fontSize = (fsize - 5) + "px"
+                }
+                if(cpt_target != null){
+                    cpt_target.onclick();
+                }
+            }
+
+            async function fetchJSON(url) {
+                const response = await fetch(url);
+                const data = await response.json();
+                return data;
+            }
+
+            function getQueryString(name) {
+                let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                let r = window.location.search.substr(1).match(reg);
+                if (r != null) {
+                    return decodeURIComponent(r[2]);
+                };
+                return null;
+            }
+            var jsonurl = getQueryString("json");
+            if(jsonurl != null)fetchJSON(jsonurl).then(data => {
+                    for(let key in content_data){
+                        delete content_data[key];
+                    }
+                    data.forEach(elem => {
+                        var cpt = document.createElement("div")
+                        cpt.classList.add("cpt");
+                        cpt.title = elem[0];
+                        content_data[elem[0]] = elem[1];
+                        cpt.appendChild(document.createTextNode(elem[0]));
+                        cpt.onclick = () => {
+                            activated_cpt = cpt;
+                            document.querySelectorAll(".cpt").forEach(elem => elem.classList.remove('activated'))
+                            cpt.classList.add('activated');
+                            /////////////////////写内容/////////////////
+                            content.innerHTML = '';
+                            var title = document.createElement("center");
+                            title.innerHTML = "<h1>" + elem[0]+ "</h1>";
+                            content.appendChild(title);
+                            content_data[elem[0]].forEach(element => {
+                                var para = document.createElement("p");
+                                para.appendChild(document.createTextNode(element));
+                                content.appendChild(para);
+                            });
+                            ////////////////////////////////////////////
+                            document.body.scrollIntoView();
+                            catalog.scrollTop = cpt.offsetTop;
+                        }
+                        catalog.appendChild(cpt);
+                    });
+                    catalog.firstChild.onclick();
+                });
+            else{
+                content.innerHTML = "<center><pre>Usage: url?json=data.json</pre><center>"
+            }
+        </script>
+    </body>
+</html>
