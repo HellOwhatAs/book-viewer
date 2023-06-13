@@ -19,8 +19,14 @@ json format
     ],
 ]
 ```
-## Usage Example
+## Usage
 ```text
 ./index.html?json=<json_url>
 ```
-[龙王：世界的重启](./index.html?json=example/龙王：世界的重启.json)
+Example: https://hellowhatas.github.io/book-viewer/?json=example/龙王：世界的重启.json
+
+## Shortcut keys
+- `ArrowRight`: next chapter
+- `ArrowLeft`: previous chapter
+- `-`: reduce font size
+- `=`: increase font size
