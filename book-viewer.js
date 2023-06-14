@@ -22,7 +22,7 @@ shrink.onclick = () => {
     if(shrink.classList.contains("hide")){
         shrink.classList.remove("hide");
         catalog.style.display = "block";
-        catalog.scrollTop = activated_cpt.offsetTop;
+        catalog.scrollTop = activated_cpt.offsetTop - catalog.clientHeight / 2 + activated_cpt.clientHeight / 2;
     }
     else{
         shrink.classList.add("hide");
@@ -125,7 +125,7 @@ function mainfunc(data) {
             }
             ////////////////////////////////////////////
             document.body.scrollIntoView();
-            catalog.scrollTop = cpt.offsetTop;
+            catalog.scrollTop = activated_cpt.offsetTop - catalog.clientHeight / 2 + activated_cpt.clientHeight / 2;
         }
         catalog.appendChild(cpt);
     });
