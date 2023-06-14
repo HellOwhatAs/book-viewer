@@ -270,69 +270,80 @@
                 return null;
             }
 
-            var jsonurl = getQueryString("json");
-            if(jsonurl != null)
-                fetchJSON(jsonurl).then(data => {
-                    for(let key in content_data){
-                        delete content_data[key];
+            function mainfunc(data) {
+                for(let key in content_data){
+                    delete content_data[key];
+                }
+                data.forEach(elem => {
+                    var cpt = document.createElement("div")
+                    cpt.classList.add("cpt");
+                    cpt.title = elem[0];
+                    content_data[elem[0]] = elem[1];
+                    cpt.innerHTML = elem[0];
+                    cpt.onclick = () => {
+                        activated_cpt = cpt;
+                        document.querySelectorAll(".cpt").forEach(elem => elem.classList.remove('activated'))
+                        cpt.classList.add('activated');
+                        /////////////////////写内容/////////////////
+                        content.innerHTML = '';
+                        Cookies.set(jsonurl, elem[0]);
+                        var title = document.createElement("center");
+                        title.innerHTML = "<h1>" + elem[0]+ "</h1>";
+                        content.appendChild(title);
+                        content_data[elem[0]].forEach(element => {
+                            var para = document.createElement("p");
+                            para.innerHTML = element;
+                            content.appendChild(para);
+                        });
+                        var footlink = document.createElement("div");
+                        footlink.classList.add("footlink");
+                        if(activated_cpt.previousSibling != null){
+                            var prev = document.createElement("div");
+                            prev.appendChild(document.createTextNode("Prev"));
+                            prev.classList.add("mylink");prev.classList.add("prevnext");
+                            prev.onclick = activated_cpt.previousSibling.onclick;
+                            footlink.appendChild(prev);
+                        }
+                        if(activated_cpt.nextSibling != null){
+                            var next = document.createElement("div");
+                            next.appendChild(document.createTextNode("Next"));
+                            next.classList.add("mylink");next.classList.add("prevnext");
+                            next.onclick = activated_cpt.nextSibling.onclick;
+                            footlink.appendChild(next);
+                        }
+                        if(activated_cpt.previousSibling != null || activated_cpt.nextSibling != null){
+                            content.appendChild(footlink);
+                        }
+                        ////////////////////////////////////////////
+                        document.body.scrollIntoView();
+                        catalog.scrollTop = cpt.offsetTop;
                     }
-                    data.forEach(elem => {
-                        var cpt = document.createElement("div")
-                        cpt.classList.add("cpt");
-                        cpt.title = elem[0];
-                        content_data[elem[0]] = elem[1];
-                        cpt.innerHTML = elem[0];
-                        cpt.onclick = () => {
-                            activated_cpt = cpt;
-                            document.querySelectorAll(".cpt").forEach(elem => elem.classList.remove('activated'))
-                            cpt.classList.add('activated');
-                            /////////////////////写内容/////////////////
-                            content.innerHTML = '';
-                            Cookies.set(jsonurl, elem[0]);
-                            var title = document.createElement("center");
-                            title.innerHTML = "<h1>" + elem[0]+ "</h1>";
-                            content.appendChild(title);
-                            content_data[elem[0]].forEach(element => {
-                                var para = document.createElement("p");
-                                para.innerHTML = element;
-                                content.appendChild(para);
-                            });
-                            var footlink = document.createElement("div");
-                            footlink.classList.add("footlink");
-                            if(activated_cpt.previousSibling != null){
-                                var prev = document.createElement("div");
-                                prev.appendChild(document.createTextNode("Prev"));
-                                prev.classList.add("mylink");prev.classList.add("prevnext");
-                                prev.onclick = activated_cpt.previousSibling.onclick;
-                                footlink.appendChild(prev);
-                            }
-                            if(activated_cpt.nextSibling != null){
-                                var next = document.createElement("div");
-                                next.appendChild(document.createTextNode("Next"));
-                                next.classList.add("mylink");next.classList.add("prevnext");
-                                next.onclick = activated_cpt.nextSibling.onclick;
-                                footlink.appendChild(next);
-                            }
-                            if(activated_cpt.previousSibling != null || activated_cpt.nextSibling != null){
-                                content.appendChild(footlink);
-                            }
-                            ////////////////////////////////////////////
-                            document.body.scrollIntoView();
-                            catalog.scrollTop = cpt.offsetTop;
-                        }
-                        catalog.appendChild(cpt);
-                    });
-                    var loaded = false;
-                    document.querySelectorAll("#catalog > div").forEach((elem) => {
-                        if(elem.title == Cookies.get(jsonurl)){
-                            elem.onclick();
-                            loaded = true;
-                        }
-                    });
-                    if(!loaded)catalog.firstChild.onclick();
+                    catalog.appendChild(cpt);
                 });
+                var loaded = false;
+                document.querySelectorAll("#catalog > div").forEach((elem) => {
+                    if(elem.title == Cookies.get(jsonurl)){
+                        elem.onclick();
+                        loaded = true;
+                    }
+                });
+                if(!loaded)catalog.firstChild.onclick();
+            }
+
+            var jsonurl = getQueryString("json");
+            if(jsonurl != null){
+                fetchJSON(jsonurl).then(mainfunc);
+            }
             else{
-                content.innerHTML = "<center><pre>Usage: url?json=data.json</pre><center>"
+                jsonurl = getQueryString("js");
+                if(jsonurl != null){
+                    var data_script = document.createElement("script");
+                    data_script.setAttribute("src", jsonurl);
+                    document.body.appendChild(data_script);
+                }
+                else{
+                    content.innerHTML = "<center><pre>Usage: url?json=data.json</pre><center>"
+                }
             };
             shrink.onclick();
             var tmpcolor;
