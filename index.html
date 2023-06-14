@@ -199,12 +199,15 @@
             var activated_cpt;
             color_selector.onchange = () => {
                 document.documentElement.style.setProperty('--color-content', color_selector.value);
+                Cookies.set(jsonurl + "color_selector", color_selector.value);
             }
             bg_color_selector.onchange = () => {
                 document.body.style.backgroundColor = bg_color_selector.value;
+                Cookies.set(jsonurl + "bg_color_selector", bg_color_selector.value);
             }
             ft_color_selector.onchange = () => {
                 document.documentElement.style.setProperty('--color-font', ft_color_selector.value);
+                Cookies.set(jsonurl + "ft_color_selector", ft_color_selector.value);
             }
             shrink.onclick = () => {
                 if(shrink.classList.contains("hide")){
@@ -332,6 +335,22 @@
                 content.innerHTML = "<center><pre>Usage: url?json=data.json</pre><center>"
             };
             shrink.onclick();
+            var tmpcolor;
+            tmpcolor = Cookies.get(jsonurl + "color_selector");
+            if(tmpcolor != null){
+                color_selector.value = tmpcolor;
+                color_selector.onchange();
+            }
+            tmpcolor = Cookies.get(jsonurl + "bg_color_selector");
+            if(tmpcolor != null){
+                bg_color_selector.value = tmpcolor;
+                bg_color_selector.onchange();
+            }
+            tmpcolor = Cookies.get(jsonurl + "ft_color_selector");
+            if(tmpcolor != null){
+                ft_color_selector.value = tmpcolor;
+                ft_color_selector.onchange();
+            }
         </script>
     </body>
 </html>
