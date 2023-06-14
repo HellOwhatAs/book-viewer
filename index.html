@@ -3,10 +3,11 @@
     <head>
         <meta charset="utf-8">
         <style id="mycss">
-            :root {
-                --color-content: bisque;
-            }
             @media (min-aspect-ratio: 6/7){
+                :root {
+                    --color-content: bisque;
+                    --font-size: 20px;
+                }
                 #content{
                     margin-left: 15%;
                     margin-right: 15%;
@@ -38,6 +39,7 @@
                     background-color: violet;
                     user-select: none;
                     white-space: nowrap;
+                    font-size: var(--font-size);
                 }
                 #shrink.hide{
                     right: 98%;
@@ -45,6 +47,10 @@
                 }
             }
             @media (max-aspect-ratio: 6/7){
+                :root {
+                    --color-content: bisque;
+                    --font-size: 35px;
+                }
                 #content{
                     margin-left: 0%;
                     margin-right: 0%;
@@ -77,6 +83,7 @@
                     background-color: violet;
                     user-select: none;
                     white-space: nowrap;
+                    font-size: var(--font-size);
                 }
                 #shrink.hide{
                     right: 95%;
@@ -120,7 +127,7 @@
                 margin-right: 5%;
                 margin-top: 5%;
                 margin-bottom: 5%;
-                font-size: 20px;
+                font-size: var(--font-size);
             }
             #catalog::-webkit-scrollbar { width: 0 !important }
             #catalog > div.cpt{
@@ -131,6 +138,7 @@
                 overflow: hidden;
                 text-overflow:ellipsis;
                 white-space: nowrap;
+                font-size: var(--font-size);
             }
             #catalog > div.cpt.activated{
                 background-color: forestgreen;
@@ -189,16 +197,16 @@
                     cpt_target = activated_cpt.previousSibling;
                 }
                 else if(event.key == '='){
-                    var fsize = parseInt(document.styleSheets[0].cssRules[1].style.fontSize);
+                    var fsize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--font-size"));
                     console.log(fsize);
                     if(fsize >= 50)return;
-                    document.styleSheets[0].cssRules[1].style.fontSize = (fsize + 5) + "px"
+                    document.documentElement.style.setProperty("--font-size", (fsize + 5) + "px");
                 }
                 else if(event.key == '-'){
-                    var fsize = parseInt(document.styleSheets[0].cssRules[1].style.fontSize);
+                    var fsize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--font-size"));
                     console.log(fsize);
                     if(fsize <= 10)return;
-                    document.styleSheets[0].cssRules[1].style.fontSize = (fsize - 5) + "px"
+                    document.documentElement.style.setProperty("--font-size", (fsize - 5) + "px");
                 }
                 if(cpt_target != null){
                     cpt_target.onclick();
