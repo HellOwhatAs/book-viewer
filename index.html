@@ -281,6 +281,7 @@
                             cpt.classList.add('activated');
                             /////////////////////写内容/////////////////
                             content.innerHTML = '';
+                            document.cookie = elem[0];
                             var title = document.createElement("center");
                             title.innerHTML = "<h1>" + elem[0]+ "</h1>";
                             content.appendChild(title);
@@ -314,7 +315,14 @@
                         }
                         catalog.appendChild(cpt);
                     });
-                    catalog.firstChild.onclick();
+                    var loaded = false;
+                    document.querySelectorAll("#catalog > div").forEach((elem) => {
+                        if(elem.title == document.cookie){
+                            elem.onclick();
+                            loaded = true;
+                        }
+                    });
+                    if(!loaded)catalog.firstChild.onclick();
                 });
             else{
                 content.innerHTML = "<center><pre>Usage: url?json=data.json</pre><center>"
