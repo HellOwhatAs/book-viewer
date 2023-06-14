@@ -213,6 +213,14 @@
                 }
             }
 
+            function kthnextSibling(elem, k) {
+                for(var i = 0; i < k; ++i) {
+                    if(elem == null) break;
+                    elem = elem.nextSibling;
+                }
+                return elem;
+            }
+
             async function fetchJSON(url) {
                 const response = await fetch(url);
                 const data = await response.json();
@@ -227,8 +235,10 @@
                 };
                 return null;
             }
+
             var jsonurl = getQueryString("json");
-            if(jsonurl != null)fetchJSON(jsonurl).then(data => {
+            if(jsonurl != null)
+                fetchJSON(jsonurl).then(data => {
                     for(let key in content_data){
                         delete content_data[key];
                     }
