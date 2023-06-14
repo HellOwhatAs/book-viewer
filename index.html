@@ -116,10 +116,31 @@
                 #shrink.hide{
                     display: none;
                 }
+                div.footlink{
+                    display: none;
+                }
             }
             @media not print{
                 body{
                     background-color: #A9A9A9;
+                }
+                div.footlink{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: var(--font-size);
+                }
+                .mylink{
+                    cursor: pointer;
+                    border-style: double;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    margin-top: 2em;
+                    margin-bottom: 2em;
+                    width: 25%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
             }
             #content > p{
@@ -262,6 +283,25 @@
                                 para.innerHTML = element;
                                 content.appendChild(para);
                             });
+                            var footlink = document.createElement("div");
+                            footlink.classList.add("footlink");
+                            if(activated_cpt.previousSibling != null){
+                                var prev = document.createElement("div");
+                                prev.appendChild(document.createTextNode("Prev"));
+                                prev.classList.add("mylink");prev.classList.add("prev");
+                                prev.onclick = activated_cpt.previousSibling.onclick;
+                                footlink.appendChild(prev);
+                            }
+                            if(activated_cpt.nextSibling != null){
+                                var next = document.createElement("div");
+                                next.appendChild(document.createTextNode("Next"));
+                                next.classList.add("mylink");next.classList.add("next");
+                                next.onclick = activated_cpt.nextSibling.onclick;
+                                footlink.appendChild(next);
+                            }
+                            if(activated_cpt.previousSibling != null || activated_cpt.nextSibling != null){
+                                content.appendChild(footlink);
+                            }
                             ////////////////////////////////////////////
                             document.body.scrollIntoView();
                             catalog.scrollTop = cpt.offsetTop;
