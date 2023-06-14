@@ -2,17 +2,17 @@
     [
         "The Mist",
         [
-            "<li onclick = \"kthnextSibling(activated_cpt, 1).onclick()\">I. The Coming of the Storm.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 2).onclick()\">II. After the Storm. Norton.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 3).onclick()\">III. The Coming of the Mist.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 4).onclick()\">IV. The Storage Area.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 5).onclick()\">V. An Argument with Norton.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 6).onclick()\">VI. Further Discussion.  Carmody.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 7).onclick()\">VII. The First Night.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 8).onclick()\">VIII. What Happened to the Soldiers.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 9).onclick()\">IX. The Expedition to the pharmacy.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 10).onclick()\">X. The Spell of  Carmody.</li>",
-            "<li onclick = \"kthnextSibling(activated_cpt, 11).onclick()\">XI. The End.</li>"
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 1).onclick()\">I. The Coming of the Storm.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 2).onclick()\">II. After the Storm. Norton.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 3).onclick()\">III. The Coming of the Mist.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 4).onclick()\">IV. The Storage Area.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 5).onclick()\">V. An Argument with Norton.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 6).onclick()\">VI. Further Discussion.  Carmody.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 7).onclick()\">VII. The First Night.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 8).onclick()\">VIII. What Happened to the Soldiers.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 9).onclick()\">IX. The Expedition to the pharmacy.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 10).onclick()\">X. The Spell of  Carmody.</li>",
+            "<li class=\"mylink\" onclick = \"kthnextSibling(activated_cpt, 11).onclick()\">XI. The End.</li>"
         ]
     ],
     [
