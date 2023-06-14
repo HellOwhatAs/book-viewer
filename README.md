@@ -21,7 +21,8 @@
 ```
 ### js format
 ```json
-mainfunc([
+mainfunc(
+[
     [
         "chapter1",
         [
@@ -36,7 +37,8 @@ mainfunc([
             "paragraph2"
         ]
     ],
-])
+]
+)
 ```
 ## Usage
 ### json format
