@@ -3,6 +3,14 @@
 ### json format
 ```json
 [
+    {
+        "tag":"script",
+        "src": "<js_url>"
+    },
+    {
+        "tag": "script",
+        "innerText": "// js code"
+    },
     [
         "chapter1",
         [
@@ -20,9 +28,18 @@
 ]
 ```
 ### js format
+for JSONP
 ```json
 mainfunc(
 [
+    {
+        "tag":"script",
+        "src": "<js_url>"
+    },
+    {
+        "tag": "script",
+        "innerText": "// js code"
+    },
     [
         "chapter1",
         [
@@ -52,6 +69,7 @@ Example: https://hellowhatas.github.io/book-viewer/?json=example/Cycle_of_the_We
 content string in json file is can contain html elements  
 Example: https://hellowhatas.github.io/book-viewer/?json=example/grad-cam.json  
 Example: https://hellowhatas.github.io/book-viewer/?json=example/Skeleton_Crew.json  
+Example: https://hellowhatas.github.io/book-viewer/?json=example/math.json  
 
 ### js format
 **CAN CORS (Cross-Origin Resource Sharing) via JSONP**

@@ -84,50 +84,66 @@ function mainfunc(data) {
         delete content_data[key];
     }
     data.forEach(elem => {
-        var cpt = document.createElement("div")
-        cpt.classList.add("cpt");
-        cpt.title = elem[0];
-        content_data[elem[0]] = elem[1];
-        cpt.innerHTML = elem[0];
-        cpt.onclick = () => {
-            activated_cpt = cpt;
-            document.querySelectorAll(".cpt").forEach(elem => elem.classList.remove('activated'))
-            cpt.classList.add('activated');
-            /////////////////////写内容/////////////////
-            content.innerHTML = '';
-            Cookies.set(jsonurl, elem[0]);
-            var title = document.createElement("center");
-            title.innerHTML = "<h1>" + elem[0]+ "</h1>";
-            content.appendChild(title);
-            content_data[elem[0]].forEach(element => {
-                var para = document.createElement("p");
-                para.innerHTML = element;
-                content.appendChild(para);
-            });
-            var footlink = document.createElement("div");
-            footlink.classList.add("footlink");
-            if(activated_cpt.previousSibling != null){
-                var prev = document.createElement("div");
-                prev.appendChild(document.createTextNode("Prev"));
-                prev.classList.add("mylink");prev.classList.add("prevnext");
-                prev.onclick = activated_cpt.previousSibling.onclick;
-                footlink.appendChild(prev);
+        if(Object.prototype.toString.call(elem)=="[object Object]"){
+            var user_script = document.createElement(elem["tag"]);
+            for(var key in elem){
+                if(key=="tag")continue;
+                if(key == "innerText"){
+                    user_script.innerText = elem[key];
+                }
+                else if(key == 'innerHTML'){
+                    user_script.innerHTML = elem[key];
+                }
+                else user_script.setAttribute(key, elem[key]);
             }
-            if(activated_cpt.nextSibling != null){
-                var next = document.createElement("div");
-                next.appendChild(document.createTextNode("Next"));
-                next.classList.add("mylink");next.classList.add("prevnext");
-                next.onclick = activated_cpt.nextSibling.onclick;
-                footlink.appendChild(next);
-            }
-            if(activated_cpt.previousSibling != null || activated_cpt.nextSibling != null){
-                content.appendChild(footlink);
-            }
-            ////////////////////////////////////////////
-            document.body.scrollIntoView();
-            catalog.scrollTop = activated_cpt.offsetTop - catalog.clientHeight / 2 + activated_cpt.clientHeight / 2;
+            document.body.appendChild(user_script);
         }
-        catalog.appendChild(cpt);
+        else{
+            var cpt = document.createElement("div")
+            cpt.classList.add("cpt");
+            cpt.title = elem[0];
+            content_data[elem[0]] = elem[1];
+            cpt.innerHTML = elem[0];
+            cpt.onclick = () => {
+                activated_cpt = cpt;
+                document.querySelectorAll(".cpt").forEach(elem => elem.classList.remove('activated'))
+                cpt.classList.add('activated');
+                /////////////////////写内容/////////////////
+                content.innerHTML = '';
+                Cookies.set(jsonurl, elem[0]);
+                var title = document.createElement("center");
+                title.innerHTML = "<h1>" + elem[0]+ "</h1>";
+                content.appendChild(title);
+                content_data[elem[0]].forEach(element => {
+                    var para = document.createElement("p");
+                    para.innerHTML = element;
+                    content.appendChild(para);
+                });
+                var footlink = document.createElement("div");
+                footlink.classList.add("footlink");
+                if(activated_cpt.previousSibling != null){
+                    var prev = document.createElement("div");
+                    prev.appendChild(document.createTextNode("Prev"));
+                    prev.classList.add("mylink");prev.classList.add("prevnext");
+                    prev.onclick = activated_cpt.previousSibling.onclick;
+                    footlink.appendChild(prev);
+                }
+                if(activated_cpt.nextSibling != null){
+                    var next = document.createElement("div");
+                    next.appendChild(document.createTextNode("Next"));
+                    next.classList.add("mylink");next.classList.add("prevnext");
+                    next.onclick = activated_cpt.nextSibling.onclick;
+                    footlink.appendChild(next);
+                }
+                if(activated_cpt.previousSibling != null || activated_cpt.nextSibling != null){
+                    content.appendChild(footlink);
+                }
+                ////////////////////////////////////////////
+                document.body.scrollIntoView();
+                catalog.scrollTop = activated_cpt.offsetTop - catalog.clientHeight / 2 + activated_cpt.clientHeight / 2;
+            }
+            catalog.appendChild(cpt);
+        }
     });
     var loaded = false;
     document.querySelectorAll("#catalog > div").forEach((elem) => {
