@@ -13,6 +13,10 @@
         "href": "https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css"
     },
     {
+        "tag": "style",
+        "innerText": ".ps-algorithm {border-top: 2px solid var(--color-font) !important;border-bottom: 2px solid var(--color-font) !important;} .ps-algorithm.with-caption > .ps-line {border-bottom: 2px solid var(--color-font) !important;}"
+    },
+    {
         "tag":"script",
         "src": "https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.js"
     },
