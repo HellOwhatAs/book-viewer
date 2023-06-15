@@ -1,7 +1,7 @@
 # book-viewer
 ## Input
 ### python (json) format
-The python code is executed using [brython](https://github.com/brython-dev/brython)
+The python code is executed using [brython](https://github.com/brython-dev/brython)  
 `BOOK` indicates the input data
 ```py
 BOOK = [
