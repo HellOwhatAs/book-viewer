@@ -16,6 +16,10 @@
         "tag":"script",
         "src": "https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.js"
     },
+    {
+        "tag": "script",
+        "src": "https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"
+    },
     [
         "MathJax",
         [
@@ -33,6 +37,13 @@
         ],
         "pseudocode.renderElement(document.getElementById(\"alg1\"), { captionCount: 0});",
         "pseudocode.renderElement(document.getElementById(\"alg2\"), { captionCount: 1});"
+    ],
+    [
+        "echarts",
+        [
+            "<div id='main' style='width: 100%;height:50vh;'></div>"
+        ],
+        "echarts.init(document.getElementById('main'), null, {renderer: 'svg'}).setOption({title: {text: 'ECharts Example'},tooltip: {},legend: {data: ['Sales']},xAxis: {data: ['shirt', 'cardigan', 'chiffon shirt', 'pants', 'high heels', 'socks']},yAxis: {},series: [{name: '销量',type: 'bar',data: [5, 20, 36, 10, 10, 20]}]});"
     ],
     "MathJax.typeset()"
 ]
