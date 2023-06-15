@@ -1,18 +1,38 @@
 [
     {
+        "tag": "script",
+        "innerText": "MathJax = {tex: {inlineMath: [['$', '$']]}, startup: {typeset: false}};"
+    },
+    {
         "tag":"script",
         "src": "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
     },
     {
-        "tag": "script",
-        "innerText": "MathJax = {tex: {inlineMath: [['$', '$']]}};"
+        "tag": "link",
+        "rel": "stylesheet",
+        "href": "https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css"
+    },
+    {
+        "tag":"script",
+        "src": "https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.js"
     },
     [
-        "Discriminative Model $\\frac{\\partial}{\\partial\\theta}\\log p(y|X)$",
+        "MathJax",
         [
+            "Discriminative Model: $\\frac{\\partial}{\\partial\\theta}\\log p(y|X)$",
             "$$Z(\\theta)=\\sum\\limits_{k}\\exp\\left(f_\\theta^{(k)}(X)\\right)$$",
             "$$p(y|X)=\\frac{\\exp(f_\\theta^{(k)}(X))}{Z(\\theta)}$$",
             "$$\\begin{aligned}\n    \\frac{\\partial}{\\partial\\theta}\\log p(y|X) &= \\frac{\\partial}{\\partial\\theta}\\left(f_\\theta^{(k)}(X) - \\log\\left(Z(\\theta)\\right)\\right)\\\\\n    &= \\frac{\\partial}{\\partial\\theta}f_\\theta^{(k)}(X) - \\frac{1}{Z(\\theta)}\\frac{\\partial}{\\partial\\theta}Z(\\theta)\\\\\n    &= \\frac{\\partial}{\\partial\\theta}f_\\theta^{(k)}(X) - \\frac{1}{Z(\\theta)}\\frac{\\partial}{\\partial\\theta}\\left(\\sum\\limits_{k}\\exp\\left(f_\\theta^{(k)}(X)\\right)\\right)\\\\\n    &= \\frac{\\partial}{\\partial\\theta}f_\\theta^{(k)}(X) - \\sum\\limits_{k'}\\frac{1}{Z(\\theta)}\\frac{\\partial}{\\partial\\theta}\\exp\\left(f_\\theta^{(k')}(X)\\right)\\\\\n    &= \\frac{\\partial}{\\partial\\theta}f_\\theta^{(k)}(X) - \\sum\\limits_{k'}\\frac{\\exp\\left(f_\\theta^{(k')}(X)\\right)}{Z(\\theta)}\\frac{\\partial}{\\partial\\theta}f_\\theta^{(k')}(X)\\\\\n    &= \\frac{\\partial}{\\partial\\theta}f_\\theta^{(k)}(X) - \\sum\\limits_{k'}p_{k'}\\frac{\\partial}{\\partial\\theta}f_\\theta^{(k')}(X)\\\\\n    &= \\sum\\limits_{k'}\\left(1(k=k')-p_{k'}\\right)\\frac{\\partial}{\\partial\\theta}f_\\theta^{(k')}(X)\\\\\n    &= \\frac{\\partial}{\\partial\\theta}f_\\theta(X)^\\top(Y-p)\\\\\n    &= \\frac{\\partial}{\\partial\\theta}f_\\theta(X)^\\top(Y-\\text{E}_\\theta(Y|X))\n   \\end{aligned}$$"
         ]
-    ]
+    ],
+    [
+        "pseudocode.js",
+        [
+            "<pre id=\"alg1\">\n    % This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)\n    \\begin{algorithm}\n    \\caption{Quicksort}\n    \\begin{algorithmic}\n    \\PROCEDURE{Quicksort}{$A, p, r$}\n        \\IF{$p < r$} \n            \\STATE $q = $ \\CALL{Partition}{$A, p, r$}\n            \\STATE \\CALL{Quicksort}{$A, p, q - 1$}\n            \\STATE \\CALL{Quicksort}{$A, q + 1, r$}\n        \\ENDIF\n    \\ENDPROCEDURE\n    \\PROCEDURE{Partition}{$A, p, r$}\n        \\STATE $x = A[r]$\n        \\STATE $i = p - 1$\n        \\FOR{$j = p$ \\TO $r - 1$}\n            \\IF{$A[j] < x$}\n                \\STATE $i = i + 1$\n                \\STATE exchange\n                $A[i]$ with $A[j]$\n            \\ENDIF\n            \\STATE exchange $A[i]$ with $A[r]$\n        \\ENDFOR\n    \\ENDPROCEDURE\n    \\end{algorithmic}\n    \\end{algorithm}\n</pre>",
+            "<pre id=\"alg2\">\n    % This quicksort algorithm is extracted from Chapter 7, Introduction to Algorithms (3rd edition)\n    \\begin{algorithm}\n    \\caption{Quicksort}\n    \\begin{algorithmic}\n    \\PROCEDURE{Quicksort}{$A, p, r$}\n        \\IF{$p < r$} \n            \\STATE $q = $ \\CALL{Partition}{$A, p, r$}\n            \\STATE \\CALL{Quicksort}{$A, p, q - 1$}\n            \\STATE \\CALL{Quicksort}{$A, q + 1, r$}\n        \\ENDIF\n    \\ENDPROCEDURE\n    \\PROCEDURE{Partition}{$A, p, r$}\n        \\STATE $x = A[r]$\n        \\STATE $i = p - 1$\n        \\FOR{$j = p$ \\TO $r - 1$}\n            \\IF{$A[j] < x$}\n                \\STATE $i = i + 1$\n                \\STATE exchange\n                $A[i]$ with $A[j]$\n            \\ENDIF\n            \\STATE exchange $A[i]$ with $A[r]$\n        \\ENDFOR\n    \\ENDPROCEDURE\n    \\end{algorithmic}\n    \\end{algorithm}\n</pre>"
+        ],
+        "pseudocode.renderElement(document.getElementById(\"alg1\"), { captionCount: 0});",
+        "pseudocode.renderElement(document.getElementById(\"alg2\"), { captionCount: 1});"
+    ],
+    "MathJax.typeset()"
 ]

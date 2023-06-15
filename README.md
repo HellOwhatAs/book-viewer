@@ -16,7 +16,9 @@
         [
             "paragraph1",
             "paragraph2"
-        ]
+        ],
+        "// js code (page command 1)",
+        "// js code (page command 2)"
     ],
     [
         "chapter2",
@@ -25,6 +27,8 @@
             "paragraph2"
         ]
     ],
+    "// js code (every page command 1)",
+    "// js code (every page command 2)"
 ]
 ```
 ### js format
@@ -45,7 +49,9 @@ mainfunc(
         [
             "paragraph1",
             "paragraph2"
-        ]
+        ],
+        "// js code (page command 1)",
+        "// js code (page command 2)"
     ],
     [
         "chapter2",
@@ -54,6 +60,8 @@ mainfunc(
             "paragraph2"
         ]
     ],
+    "// js code (every page command 1)",
+    "// js code (every page command 2)"
 ]
 )
 ```
@@ -83,3 +91,47 @@ Example: https://hellowhatas.github.io/book-viewer/?js=example/grad-cam.js
 - `ArrowLeft`: previous chapter
 - `-`: reduce font size
 - `=`: increase font size
+
+## Advanced
+### user scripts & links
+**functions once** before the rendering of any chapter.
+```json
+[
+    {
+        "tag":"script",
+        "src": "<js_url>"
+    },
+    {
+        "tag": "script",
+        "innerText": "// js code"
+    },
+    {
+        "tag": "link",
+        "rel": "stylesheet",
+        "href": "<css_url>"
+    },
+]
+```
+### page commands
+functions each time this page finishes writing.
+```json
+[
+    [
+        "chapter1",
+        [
+            "paragraph1",
+            "paragraph2"
+        ],
+        "// js code (page command 1)",
+        "// js code (page command 2)"
+    ]
+]
+```
+### each page commands
+functions after [page commands](#page-commands) finishes on each page.
+```json
+[
+    "// js code (every page command 1)",
+    "// js code (every page command 2)"
+]
+```

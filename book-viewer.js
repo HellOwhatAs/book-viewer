@@ -6,6 +6,9 @@ var bg_color_selector = document.getElementById("bg_color_selector");
 var ft_color_selector = document.getElementById("ft_color_selector");
 var catalog = document.getElementById("catalog");
 var activated_cpt;
+var command_hooks = [];
+var page_command_hooks = {};
+var user_scripts = new Set();
 color_selector.onchange = () => {
     document.documentElement.style.setProperty('--color-content', color_selector.value);
     Cookies.set(jsonurl + "color_selector", color_selector.value);
@@ -41,13 +44,11 @@ document.onkeydown = (event) => {
     }
     else if(event.key == '='){
         var fsize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--font-size"));
-        console.log(fsize);
         if(fsize >= 50)return;
         document.documentElement.style.setProperty("--font-size", (fsize + 5) + "px");
     }
     else if(event.key == '-'){
         var fsize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--font-size"));
-        console.log(fsize);
         if(fsize <= 10)return;
         document.documentElement.style.setProperty("--font-size", (fsize - 5) + "px");
     }
@@ -79,6 +80,18 @@ function getQueryString(name) {
     return null;
 }
 
+function user_scripts_loaded() {
+    if(user_scripts.size > 0) return;
+    var loaded = false;
+    document.querySelectorAll("#catalog > div").forEach((elem) => {
+        if(elem.title == Cookies.get(jsonurl)){
+            elem.onclick();
+            loaded = true;
+        }
+    });
+    if(!loaded)catalog.firstChild.onclick();
+};
+
 function mainfunc(data) {
     for(let key in content_data){
         delete content_data[key];
@@ -96,7 +109,17 @@ function mainfunc(data) {
                 }
                 else user_script.setAttribute(key, elem[key]);
             }
+            if(user_script.innerHTML == ''){
+                user_scripts.add(elem);
+                user_script.onload = () => {
+                    user_scripts.delete(elem);
+                    user_scripts_loaded();
+                };
+            }
             document.body.appendChild(user_script);
+        }
+        else if(Object.prototype.toString.call(elem)=='[object String]'){
+            command_hooks.push(elem);
         }
         else{
             var cpt = document.createElement("div")
@@ -104,6 +127,12 @@ function mainfunc(data) {
             cpt.title = elem[0];
             content_data[elem[0]] = elem[1];
             cpt.innerHTML = elem[0];
+
+            page_command_hooks[elem[0]] = [];
+            for(var i = 2; i < elem.length; i++){
+                page_command_hooks[elem[0]].push(elem[i]);
+            }
+
             cpt.onclick = () => {
                 activated_cpt = cpt;
                 document.querySelectorAll(".cpt").forEach(elem => elem.classList.remove('activated'))
@@ -141,18 +170,14 @@ function mainfunc(data) {
                 ////////////////////////////////////////////
                 document.body.scrollIntoView();
                 catalog.scrollTop = activated_cpt.offsetTop - catalog.clientHeight / 2 + activated_cpt.clientHeight / 2;
+
+                page_command_hooks[elem[0]].forEach(cmd => eval(cmd));
+                command_hooks.forEach(cmd => eval(cmd));
             }
             catalog.appendChild(cpt);
         }
     });
-    var loaded = false;
-    document.querySelectorAll("#catalog > div").forEach((elem) => {
-        if(elem.title == Cookies.get(jsonurl)){
-            elem.onclick();
-            loaded = true;
-        }
-    });
-    if(!loaded)catalog.firstChild.onclick();
+    user_scripts_loaded();
 }
 
 var jsonurl = getQueryString("json");
