@@ -71,6 +71,16 @@ async function fetchJSON(url) {
     return data;
 }
 
+async function fetchTXT(url) {
+    const response = await fetch(url);
+    const data = await response.text();
+    return data;
+}
+
+function parse_pyobj(input_str){
+    return __BRYTHON__.pyobj2jsobj(eval(__BRYTHON__.python_to_js('data = ' + input_str)).data)
+}
+
 function getQueryString(name) {
     let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     let r = window.location.search.substr(1).match(reg);
@@ -192,7 +202,15 @@ else{
         document.body.appendChild(data_script);
     }
     else{
-        content.innerHTML = "<center><pre>Usage: url?json=data.json</pre><center>"
+        jsonurl = getQueryString("py");
+        if(jsonurl != null){
+            fetchTXT(jsonurl).then((py_str => {
+                mainfunc(parse_pyobj(py_str));
+            }));
+        }
+        else{
+            content.innerHTML = "<center><pre>Usage: url?json=data.json</pre><center>"
+        }
     }
 };
 shrink.onclick();
