@@ -1,9 +1,10 @@
 # book-viewer
 ## Input
 ### python (json) format
-**Important:** the first line must starts with `[`
+The python code is executed using [brython](https://github.com/brython-dev/brython)
+`BOOK` indicates the input data
 ```py
-[
+BOOK = [
     # annotation
     {
         "tag":"script",
@@ -106,10 +107,9 @@ mainfunc(
 ```text
 ./index.html?py=<python_url>
 ```
-**CANNOT CORS (Cross-Origin Resource Sharing)** even warpped in `mainfunc`.  
-Because it's not valid js code.  
-other features are similar with [json format](#json-format-1).  
+**CANNOT CORS (Cross-Origin Resource Sharing)**  
 **Example:** https://hellowhatas.github.io/book-viewer/?py=example/math.py  
+**Example:** https://hellowhatas.github.io/book-viewer/?py=example/square.py  
 ### json format
 **CANNOT CORS (Cross-Origin Resource Sharing)**
 ```text

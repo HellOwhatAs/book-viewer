@@ -1,4 +1,4 @@
-[
+BOOK = [
     # MathJax support
     {
         "tag": "script",

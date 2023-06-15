@@ -78,7 +78,7 @@ async function fetchTXT(url) {
 }
 
 function parse_pyobj(input_str){
-    return __BRYTHON__.pyobj2jsobj(eval(__BRYTHON__.python_to_js('data = ' + input_str)).data)
+    return __BRYTHON__.pyobj2jsobj(eval(__BRYTHON__.python_to_js(input_str, "__main__")).BOOK)
 }
 
 function getQueryString(name) {
@@ -153,6 +153,8 @@ function mainfunc(data) {
                 var title = document.createElement("center");
                 title.innerHTML = "<h1>" + elem[0]+ "</h1>";
                 content.appendChild(title);
+                console.log(elem[0]);
+                console.log(content_data);
                 content_data[elem[0]].forEach(element => {
                     var para = document.createElement("p");
                     para.innerHTML = element;
