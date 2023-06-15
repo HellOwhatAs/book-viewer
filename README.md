@@ -1,5 +1,41 @@
 # book-viewer
 ## Input
+### python (json) format
+**Important:** the first line must starts with `[`
+```py
+[
+    # annotation
+    {
+        "tag":"script",
+        "src": "<js_url>"
+    },
+    {
+        "tag": "script",
+        "innerText": r"""
+                      multi lime js code
+                      with escape char
+                      """
+    },
+    [
+        "chapter1",
+        [
+            r"paragraph1 with escape char",
+            r"paragraph2 with escape char"
+        ],
+        r"// js code (page command 1) with escape char",
+        r"// js code (page command 2) with escape char"
+    ],
+    [
+        "chapter2",
+        [
+            r"paragraph1 with escape char",
+            r"paragraph2 with escape char"
+        ]
+    ],
+    r"// js code (every page command 1) with escape char",
+    r"// js code (every page command 2) with escape char"
+]
+```
 ### json format
 ```json
 [
@@ -66,25 +102,33 @@ mainfunc(
 )
 ```
 ## Usage
+### python (json) format
+```text
+./index.html?py=<python_url>
+```
+**CANNOT CORS (Cross-Origin Resource Sharing)** even warpped in `mainfunc`.  
+Because it's not valid js code.  
+other features are similar with [json format](#json-format-1).  
+**Example:** https://hellowhatas.github.io/book-viewer/?py=example/math.py  
 ### json format
 **CANNOT CORS (Cross-Origin Resource Sharing)**
 ```text
 ./index.html?json=<json_url>
 ```
-Example: https://hellowhatas.github.io/book-viewer/?json=example/龙王：世界的重启.json  
-Example: https://hellowhatas.github.io/book-viewer/?json=example/Cycle_of_the_Werewolf.json  
+**Example:** https://hellowhatas.github.io/book-viewer/?json=example/龙王：世界的重启.json  
+**Example:** https://hellowhatas.github.io/book-viewer/?json=example/Cycle_of_the_Werewolf.json  
 
 content string in json file is can contain html elements  
-Example: https://hellowhatas.github.io/book-viewer/?json=example/grad-cam.json  
-Example: https://hellowhatas.github.io/book-viewer/?json=example/Skeleton_Crew.json  
-Example: https://hellowhatas.github.io/book-viewer/?json=example/math.json  
+**Example:** https://hellowhatas.github.io/book-viewer/?json=example/grad-cam.json  
+**Example:** https://hellowhatas.github.io/book-viewer/?json=example/Skeleton_Crew.json  
+**Example:** https://hellowhatas.github.io/book-viewer/?json=example/math.json  
 
 ### js format
 **CAN CORS (Cross-Origin Resource Sharing) via JSONP**
 ```text
 ./index.html?js=<js_url>
 ```
-Example: https://hellowhatas.github.io/book-viewer/?js=example/grad-cam.js  
+**Example:** https://hellowhatas.github.io/book-viewer/?js=example/grad-cam.js  
 
 ## Shortcut keys
 - `ArrowRight`: next chapter

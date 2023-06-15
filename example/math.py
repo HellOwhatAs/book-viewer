@@ -1,4 +1,5 @@
 [
+    # MathJax support
     {
         "tag": "script",
         "innerText": r'''MathJax = {
@@ -14,6 +15,7 @@
         "tag": "script",
         "src": "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
     },
+    # pseudocode.js support
     {
         "tag": "link",
         "rel": "stylesheet",
@@ -35,6 +37,7 @@
         "tag":"script",
         "src": "https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.js"
     },
+    # echarts support
     {
         "tag": "script",
         "src": "https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"
