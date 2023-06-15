@@ -163,7 +163,8 @@ h1{
     font-size: var(--font-size);
     overflow: visible;
 }
-#catalog::-webkit-scrollbar { width: 0 !important }
+#catalog::-webkit-scrollbar { display: none; }
+body::-webkit-scrollbar { display: none; }
 #catalog > div.cpt{
     width: 100%;
     background-color: gray;
