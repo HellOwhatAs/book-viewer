@@ -161,7 +161,7 @@ h1{
     margin-top: 5%;
     margin-bottom: 5%;
     font-size: var(--font-size);
-    overflow: hidden;
+    overflow: visible;
 }
 #catalog::-webkit-scrollbar { width: 0 !important }
 #catalog > div.cpt{
