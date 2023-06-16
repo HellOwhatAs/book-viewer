@@ -119,8 +119,8 @@ mainfunc(
 **Example:** https://hellowhatas.github.io/book-viewer/?json=example/Cycle_of_the_Werewolf.json  
 
 content string in json file is can contain html elements  
-**Example:** https://hellowhatas.github.io/book-viewer/?json=example/grad-cam.json  
 **Example:** https://hellowhatas.github.io/book-viewer/?json=example/Skeleton_Crew.json  
+**Example:** https://hellowhatas.github.io/book-viewer/?json=example/恐吓小说网.json  
 **Example:** https://hellowhatas.github.io/book-viewer/?json=example/math.json  
 
 ### js format
@@ -128,7 +128,7 @@ content string in json file is can contain html elements
 ```text
 ./index.html?js=<js_url>
 ```
-**Example:** https://hellowhatas.github.io/book-viewer/?js=example/grad-cam.js  
+**Example:** https://hellowhatas.github.io/book-viewer/?js=example/math.js  
 
 ## Shortcut keys
 - `ArrowRight`: next chapter

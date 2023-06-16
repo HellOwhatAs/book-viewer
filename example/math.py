@@ -125,36 +125,86 @@ BOOK = [
         'pseudocode.renderElement(document.getElementById("alg2"), { captionCount: 1});'
     ],
     [
-        "echarts",
+        "<img src='https://echarts.apache.org/zh/images/favicon.png' style='height: 0.8em;'></img> echarts",
         [
-            "<div id='main' style='width: 100%;height:50vh;'></div>"
+            r"$$50\sin(x)\cos(2x+1)\sin(3x+2)$$"
+            "<div id='main' style='width: 100%;height:90vh;'></div>"
         ],
         r"""
-        var echarts_main = echarts.init(
-            document.getElementById('main'),
-            null, 
-            {renderer: 'svg'}
-        );
-        echarts_main.setOption(
-            {
-                title: {text: 'ECharts Example'},
-                tooltip: {},
-                legend: {
-                    data: ['Sales']
-                },
-                xAxis: {
-                    data: ['shirt', 'cardigan', 'chiffon shirt', 'pants', 'high heels', 'socks']
-                },
-                yAxis: {},
-                series: [
-                    {
-                        name: 'sales',
-                        type: 'bar',
-                        data: [5, 20, 36, 10, 10, 20]
-                    }
-                ]
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom, null, {renderer: 'svg'});
+        var option;
+
+        function func(x) {
+            x /= 10;
+            return Math.sin(x) * Math.cos(x * 2 + 1) * Math.sin(x * 3 + 2) * 50;
+        }
+        function generateData() {
+            let data = [];
+            for (let i = -100; i <= 100; i += 0.1) {
+                data.push([i, func(i)]);
             }
-        );
+            return data;
+        }
+        option = {
+            animation: false,
+            grid: {
+                top: 40,
+                left: 50,
+                right: 40,
+                bottom: 50
+            },
+            xAxis: {
+                name: 'x',
+                min: -100,
+                max: 100,
+                minorTick: {
+                    show: true
+                    },
+                minorSplitLine: {
+                    show: true
+                    }
+            },
+            yAxis: {
+                name: 'y',
+                min: -100,
+                max: 100,
+                minorTick: {
+                    show: true
+                    },
+                minorSplitLine: {
+                    show: true
+                    }
+            },
+            dataZoom: [
+                {
+                    show: true,
+                    type: 'inside',
+                    filterMode: 'none',
+                    xAxisIndex: [0],
+                    startValue: -20,
+                    endValue: 20
+                },
+                {
+                    show: true,
+                    type: 'inside',
+                    filterMode: 'none',
+                    yAxisIndex: [0],
+                    startValue: -20,
+                    endValue: 20
+                }
+            ],
+            series: [
+                {
+                    type: 'line',
+                    showSymbol: false,
+                    clip: true,
+                    data: generateData()
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
         """
     ],
     "MathJax.typeset()"

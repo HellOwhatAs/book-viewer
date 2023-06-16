@@ -153,8 +153,6 @@ function mainfunc(data) {
                 var title = document.createElement("center");
                 title.innerHTML = "<h1>" + elem[0]+ "</h1>";
                 content.appendChild(title);
-                console.log(elem[0]);
-                console.log(content_data);
                 content_data[elem[0]].forEach(element => {
                     var para = document.createElement("p");
                     para.innerHTML = element;

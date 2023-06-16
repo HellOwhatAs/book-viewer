@@ -1,3 +1,4 @@
+mainfunc(
 [
     {
         "tag": "script",
@@ -51,3 +52,4 @@
     ],
     "MathJax.typeset()"
 ]
+)
