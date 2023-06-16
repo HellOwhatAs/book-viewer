@@ -2,7 +2,7 @@ mainfunc(
 [
     {
         "tag": "script",
-        "innerText": "MathJax = {\n            tex: {\n                inlineMath: [['$', '$']]\n            }, \n            startup: {\n                typeset: false\n            }\n        };"
+        "innerText": "MathJax = {\n            tex: {\n                inlineMath: [['$', '$']]\n            }, \n            startup: {\n                typeset: false\n            },\n            options: {\n                enableMenu: false\n            }\n        };"
     },
     {
         "tag": "script",

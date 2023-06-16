@@ -8,6 +8,9 @@ BOOK = [
             }, 
             startup: {
                 typeset: false
+            },
+            options: {
+                enableMenu: false
             }
         };'''
     },
