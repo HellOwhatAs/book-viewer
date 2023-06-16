@@ -110,6 +110,7 @@ mainfunc(
 **CANNOT CORS (Cross-Origin Resource Sharing)**  
 **Example:** https://hellowhatas.github.io/book-viewer/?py=example/math.py  
 **Example:** https://hellowhatas.github.io/book-viewer/?py=example/square.py  
+**Example:** https://hellowhatas.github.io/book-viewer/?py=example/bound_volume.py  
 ### json format
 **CANNOT CORS (Cross-Origin Resource Sharing)**
 ```text
