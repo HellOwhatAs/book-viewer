@@ -9,7 +9,7 @@ for book_path in [
     with open(book_path, "r", encoding='utf-8') as f:
         chapters = [
             [
-                os.path.basename(book_path),
+                f"<mark>{os.path.basename(book_path)}</mark>",
                 [
                     f"The start of {os.path.basename(book_path)}"
                 ]
