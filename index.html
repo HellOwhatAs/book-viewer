@@ -2,10 +2,184 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
-        <link type="text/css" rel="stylesheet" href="./style.css"/>
+        <style>
+            :root{
+                --font-family: "Baskerville Old Face", "华文楷体";
+                --color-content: bisque;
+                --color-font: black;
+            }
+            @media (min-aspect-ratio: 6/7){
+                :root {
+                    --font-size: 25px;
+                }
+                #content{
+                    margin-left: 15%;
+                    margin-right: 15%;
+                    background-color: var(--color-content);
+                    box-shadow: 2px 2px 2px black;
+                    border-style: solid;
+                    border-width: 0.1px;
+                    font-family: var(--font-family);
+                    color: var(--color-font);
+                }
+                #colors{
+                    position: fixed;
+                    left: 85%;
+                    top: 0%;
+                }
+                #catalog{
+                    position: fixed;
+                    width: 13%;
+                    height:100vh;
+                    left: 0%;
+                    top: 0%;
+                    overflow: auto;
+                }
+                #shrink{
+                    position: fixed;
+                    right: 85%;
+                    left: 13%;
+                    top: 0%;
+                    background-color: violet;
+                    user-select: none;
+                    white-space: nowrap;
+                    font-size: var(--font-size);
+                }
+                #shrink.hide{
+                    right: 98%;
+                    left: 0%;
+                }
+            }
+            @media (max-aspect-ratio: 6/7){
+                :root {
+                    --font-size: 35px;
+                }
+                #content{
+                    margin-left: 0%;
+                    margin-right: 0%;
+                    background-color: var(--color-content);
+                    box-shadow: 2px 2px 2px black;
+                    border-style: solid;
+                    border-width: 0.1px;
+                    font-family: var(--font-family);
+                    color: var(--color-font);
+                }
+                #colors{
+                    position: fixed;
+                    right: 0%;
+                    width: 5%;
+                    top: 0%;
+                }
+                #catalog{
+                    position: fixed;
+                    width: 40%;
+                    height:100vh;
+                    left: 0%;
+                    top: 0%;
+                    overflow: auto;
+                }
+                #shrink{
+                    position: fixed;
+                    right: 55%;
+                    left: 40%;
+                    top: 0%;
+                    background-color: violet;
+                    user-select: none;
+                    white-space: nowrap;
+                    font-size: var(--font-size);
+                }
+                #shrink.hide{
+                    right: 95%;
+                    left: 0%;
+                }
+            }
+            @media print{
+                body{
+                    background-color: var(--color-content);
+                }
+                #content{
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    font-family: var(--font-family);
+                    box-shadow: none;
+                    border-style: none;
+                }
+                #colors{
+                    display: none;
+                }
+                #catalog{
+                    display: none;
+                }
+                #catalog > div{
+                    display: none;
+                }
+                #shrink{
+                    display: none;
+                }
+                #shrink.hide{
+                    display: none;
+                }
+                div.footlink{
+                    display: none;
+                }
+            }
+            @media not print{
+                body{
+                    background-color: #A9A9A9;
+                }
+                div.footlink{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: var(--font-size);
+                }
+                .mylink{
+                    cursor: pointer;
+                }
+                .prevnext{
+                    border-style: double;
+                    border-width: 0.2em;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    margin-top: 2em;
+                    margin-bottom: 2em;
+                    width: 25%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+            h1{
+                font-size: calc(2 * var(--font-size));
+            }
+            #content > p{
+                margin-left: 5%;
+                margin-right: 5%;
+                margin-top: 5%;
+                margin-bottom: 5%;
+                font-size: var(--font-size);
+                overflow: visible;
+            }
+            #catalog::-webkit-scrollbar { display: none; }
+            body::-webkit-scrollbar { display: none; }
+            #catalog > div.cpt{
+                width: 100%;
+                background-color: gray;
+                user-select: none;
+                margin-bottom: 2px;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                font-size: var(--font-size);
+                color: var(--color-font);
+                font-family: var(--font-family);
+            }
+            #catalog > div.cpt.activated{
+                background-color: var(--color-content);
+            }
+        </style>
     </head>
     <body>
         <div id="colors">
@@ -18,6 +192,199 @@
         <div id="catalog"></div>
         <div id="content"></div>
         <div id="shrink">&emsp;</div>
-        <script src="./book-viewer.js"></script>
+        <script>
+            var content_data = {};
+            var shrink = document.getElementById("shrink");
+            var content = document.getElementById("content");
+            var color_selector = document.getElementById("color_selector");
+            var bg_color_selector = document.getElementById("bg_color_selector");
+            var ft_color_selector = document.getElementById("ft_color_selector");
+            var catalog = document.getElementById("catalog");
+            var activated_cpt;
+            var command_hooks = [];
+            var page_command_hooks = {};
+            var user_scripts = new Set();
+            color_selector.onchange = () => {
+                document.documentElement.style.setProperty('--color-content', color_selector.value);
+            }
+            bg_color_selector.onchange = () => {
+                document.body.style.backgroundColor = bg_color_selector.value;
+            }
+            ft_color_selector.onchange = () => {
+                document.documentElement.style.setProperty('--color-font', ft_color_selector.value);
+            }
+            shrink.onclick = () => {
+                if(shrink.classList.contains("hide")){
+                    shrink.classList.remove("hide");
+                    catalog.style.display = "block";
+                    catalog.scrollTop = activated_cpt.offsetTop - catalog.clientHeight / 2 + activated_cpt.clientHeight / 2;
+                }
+                else{
+                    shrink.classList.add("hide");
+                    catalog.style.display = "none";
+                }
+            }
+
+            document.onkeydown = (event) => {
+                if(activated_cpt == null) return;
+                var cpt_target = null;
+                if(event.key == 'ArrowRight'){
+                    cpt_target = activated_cpt.nextSibling;
+                }
+                else if(event.key == 'ArrowLeft'){
+                    cpt_target = activated_cpt.previousSibling;
+                }
+                else if(event.key == '='){
+                    var fsize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--font-size"));
+                    if(fsize >= 50)return;
+                    document.documentElement.style.setProperty("--font-size", (fsize + 5) + "px");
+                }
+                else if(event.key == '-'){
+                    var fsize = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--font-size"));
+                    if(fsize <= 10)return;
+                    document.documentElement.style.setProperty("--font-size", (fsize - 5) + "px");
+                }
+                if(cpt_target != null){
+                    cpt_target.onclick();
+                }
+            }
+
+            function kthnextSibling(elem, k) {
+                for(var i = 0; i < k; ++i) {
+                    if(elem == null) break;
+                    elem = elem.nextSibling;
+                }
+                return elem;
+            }
+
+            async function fetchJSON(url) {
+                const response = await fetch(url);
+                const data = await response.json();
+                return data;
+            }
+
+            async function fetchTXT(url) {
+                const response = await fetch(url);
+                const data = await response.text();
+                return data;
+            }
+
+            function parse_pyobj(input_str){
+                return __BRYTHON__.pyobj2jsobj(eval(__BRYTHON__.python_to_js(input_str, "__main__")).BOOK)
+            }
+
+            function getQueryString(name) {
+                let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                let r = window.location.search.substr(1).match(reg);
+                if (r != null) {
+                    return decodeURIComponent(r[2]);
+                };
+                return null;
+            }
+
+            function user_scripts_loaded() {
+                if(user_scripts.size > 0) return;
+                var loaded = false;
+                if(!loaded)catalog.firstChild.onclick();
+            };
+
+            function mainfunc(data) {
+                for(let key in content_data){
+                    delete content_data[key];
+                }
+                data.forEach(elem => {
+                    if(Object.prototype.toString.call(elem)=="[object Object]"){
+                        var user_script = document.createElement(elem["tag"]);
+                        for(var key in elem){
+                            if(key=="tag")continue;
+                            if(key == "innerText"){
+                                user_script.innerText = elem[key];
+                            }
+                            else if(key == 'innerHTML'){
+                                user_script.innerHTML = elem[key];
+                            }
+                            else user_script.setAttribute(key, elem[key]);
+                        }
+                        if(user_script.innerHTML == ''){
+                            user_scripts.add(elem);
+                            user_script.onload = () => {
+                                user_scripts.delete(elem);
+                                user_scripts_loaded();
+                            };
+                        }
+                        document.body.appendChild(user_script);
+                    }
+                    else if(Object.prototype.toString.call(elem)=='[object String]'){
+                        command_hooks.push(elem);
+                    }
+                    else{
+                        var cpt = document.createElement("div")
+                        cpt.classList.add("cpt");
+                        cpt.title = elem[0];
+                        content_data[elem[0]] = elem[1];
+                        cpt.innerHTML = elem[0];
+
+                        page_command_hooks[elem[0]] = [];
+                        for(var i = 2; i < elem.length; i++){
+                            page_command_hooks[elem[0]].push(elem[i]);
+                        }
+
+                        cpt.onclick = () => {
+                            activated_cpt = cpt;
+                            document.querySelectorAll(".cpt").forEach(elem => elem.classList.remove('activated'))
+                            cpt.classList.add('activated');
+                            /////////////////////写内容/////////////////
+                            content.innerHTML = '';
+                            var title = document.createElement("center");
+                            title.innerHTML = "<h1>" + elem[0]+ "</h1>";
+                            content.appendChild(title);
+                            content_data[elem[0]].forEach(element => {
+                                var para = document.createElement("p");
+                                para.innerHTML = element;
+                                content.appendChild(para);
+                            });
+                            var footlink = document.createElement("div");
+                            footlink.classList.add("footlink");
+                            if(activated_cpt.previousSibling != null){
+                                var prev = document.createElement("div");
+                                prev.appendChild(document.createTextNode("Prev"));
+                                prev.classList.add("mylink");prev.classList.add("prevnext");
+                                prev.onclick = activated_cpt.previousSibling.onclick;
+                                footlink.appendChild(prev);
+                            }
+                            if(activated_cpt.nextSibling != null){
+                                var next = document.createElement("div");
+                                next.appendChild(document.createTextNode("Next"));
+                                next.classList.add("mylink");next.classList.add("prevnext");
+                                next.onclick = activated_cpt.nextSibling.onclick;
+                                footlink.appendChild(next);
+                            }
+                            if(activated_cpt.previousSibling != null || activated_cpt.nextSibling != null){
+                                content.appendChild(footlink);
+                            }
+                            ////////////////////////////////////////////
+                            document.body.scrollIntoView();
+                            catalog.scrollTop = activated_cpt.offsetTop - catalog.clientHeight / 2 + activated_cpt.clientHeight / 2;
+
+                            page_command_hooks[elem[0]].forEach(cmd => eval(cmd));
+                            command_hooks.forEach(cmd => eval(cmd));
+                        }
+                        catalog.appendChild(cpt);
+                    }
+                });
+                user_scripts_loaded();
+            }
+
+            var jsonurl = getQueryString("json");
+            datafunc().then(data => {
+                if(data["ext"] == ".json"){
+                    mainfunc(data["data"]);
+                }
+                else{
+                    mainfunc(parse_pyobj(data["data"]));
+                }
+            });
+            shrink.onclick();
+        </script>
     </body>
 </html>
