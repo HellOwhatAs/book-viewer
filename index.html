@@ -204,6 +204,7 @@
             var command_hooks = [];
             var page_command_hooks = {};
             var user_scripts = new Set();
+            var fullscreened = false;
             color_selector.onchange = () => {
                 document.documentElement.style.setProperty('--color-content', color_selector.value);
             }
@@ -226,6 +227,16 @@
             }
 
             document.onkeydown = (event) => {
+                if(event.key == 'F11'){
+                    if(fullscreened){
+                        RestoreWindow();
+                        fullscreened = false;
+                    }
+                    else{
+                        SetFullscreen();
+                        fullscreened = true;
+                    }
+                }
                 if(activated_cpt == null) return;
                 var cpt_target = null;
                 if(event.key == 'ArrowRight'){
