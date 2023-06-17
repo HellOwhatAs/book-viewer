@@ -15,6 +15,12 @@
     :root {
         --font-size: 25px;
     }
+    input[type=color]{
+        border:none;
+        background-color: rgba(0,0,0,0);
+        width: min(5vw, 5vh);
+        height: min(5vw, 5vh);
+    }
     #content{
         margin-left: 15%;
         margin-right: 15%;
@@ -29,6 +35,7 @@
         position: fixed;
         left: 85%;
         top: 0%;
+        user-select: none;
     }
     #catalog{
         position: fixed;
@@ -40,13 +47,16 @@
     }
     #shrink{
         position: fixed;
-        right: 85%;
         left: 13%;
         top: 0%;
-        background-color: violet;
+        background-color: var(--color-content);
         user-select: none;
         white-space: nowrap;
-        font-size: var(--font-size);
+        width: min(5vw, 5vh);
+        height: min(5vw, 5vh);
+        border-style: double;
+        border-width: min(0.5vh, 0.5vw);
+        border-color: var(--color-font);
     }
     #shrink.hide{
         right: 98%;
@@ -56,6 +66,12 @@
 @media (max-aspect-ratio: 6/7){
     :root {
         --font-size: 35px;
+    }
+    input[type=color]{
+        border:none;
+        background-color: rgba(0,0,0,0);
+        width: min(10vw, 10vh);
+        height: min(10vw, 10vh);
     }
     #content{
         margin-left: 0%;
@@ -72,6 +88,7 @@
         right: 0%;
         width: 5%;
         top: 0%;
+        user-select: none;
     }
     #catalog{
         position: fixed;
@@ -83,13 +100,18 @@
     }
     #shrink{
         position: fixed;
-        right: 55%;
         left: 40%;
         top: 0%;
-        background-color: violet;
+        background-color: var(--color-content);
+        opacity: 50%;
         user-select: none;
         white-space: nowrap;
         font-size: var(--font-size);
+        width: min(5vw, 5vh);
+        height: min(5vw, 5vh);
+        border-style: double;
+        border-width: min(0.5vh, 0.5vw);
+        border-color: var(--color-font);
     }
     #shrink.hide{
         right: 95%;
