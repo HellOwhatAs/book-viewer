@@ -86,6 +86,7 @@ book-viewer.exe <path to json>
 - `ArrowLeft`: previous chapter
 - `-`: reduce font size
 - `=`: increase font size
+- `F11` toggle fullscreen
 ## Advanced
 ### user scripts & links
 **functions once** before the rendering of any chapter.
