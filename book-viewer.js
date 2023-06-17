@@ -102,6 +102,29 @@ function user_scripts_loaded() {
     if(!loaded)catalog.firstChild.onclick();
 };
 
+async function readFileContent() {
+    try {
+        const [fileHandle] = await window.showOpenFilePicker({
+            types: [
+                {   description: "Json / Python(BOOK)",
+                    accept: { "application/json": [".json", ".py"]}}
+            ],
+            excludeAcceptAllOption: true,
+            multiple: false,
+          }); // 弹出文件选择器并获取文件句柄
+        const file = await fileHandle.getFile(); // 获取文件对象
+        const fileContents = await file.text(); // 读取文件内容
+        if(fileHandle.name.endsWith(".py")){
+            mainfunc(parse_pyobj(fileContents));
+        }
+        else{
+            mainfunc(JSON.parse(fileContents));
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 function mainfunc(data) {
     for(let key in content_data){
         delete content_data[key];
@@ -209,7 +232,14 @@ else{
             }));
         }
         else{
-            content.innerHTML = "<center><pre>Usage: url?json=data.json</pre><center>"
+            var footlink = document.createElement("div");
+            footlink.classList.add("footlink");
+            var click_me = document.createElement("div");
+            click_me.appendChild(document.createTextNode("Upload"));
+            click_me.onclick = readFileContent;
+            click_me.classList.add("mylink");click_me.classList.add("prevnext");
+            footlink.appendChild(click_me);
+            content.appendChild(footlink);
         }
     }
 };
