@@ -191,7 +191,6 @@ function mainfunc(data) {
     user_scripts_loaded();
 }
 
-var jsonurl = getQueryString("json");
 datafunc().then(data => {
     if(data["ext"] == ".json"){
         mainfunc(data["data"]);
