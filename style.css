@@ -42,6 +42,7 @@
         left: 13%;
         top: 0%;
         background-color: var(--color-content);
+        opacity: 50%;
         user-select: none;
         white-space: nowrap;
         width: min(5vw, 5vh);
