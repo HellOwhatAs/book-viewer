@@ -213,6 +213,25 @@ function mainfunc(data) {
     user_scripts_loaded();
 }
 
+function load_color_from_cookies(){
+    var tmpcolor;
+    tmpcolor = Cookies.get(jsonurl + "color_selector");
+    if(tmpcolor != null){
+        color_selector.value = tmpcolor;
+        color_selector.onchange();
+    }
+    tmpcolor = Cookies.get(jsonurl + "bg_color_selector");
+    if(tmpcolor != null){
+        bg_color_selector.value = tmpcolor;
+        bg_color_selector.onchange();
+    }
+    tmpcolor = Cookies.get(jsonurl + "ft_color_selector");
+    if(tmpcolor != null){
+        ft_color_selector.value = tmpcolor;
+        ft_color_selector.onchange();
+    }
+}
+
 var jsonurl = getQueryString("json");
 if(jsonurl != null){
     fetchJSON(jsonurl).then(mainfunc);
@@ -232,31 +251,30 @@ else{
             }));
         }
         else{
-            var footlink = document.createElement("div");
-            footlink.classList.add("footlink");
-            var click_me = document.createElement("div");
-            click_me.appendChild(document.createTextNode("Upload"));
-            click_me.onclick = readFileContent;
-            click_me.classList.add("mylink");click_me.classList.add("prevnext");
-            footlink.appendChild(click_me);
-            content.appendChild(footlink);
+            var file_selector = document.createElement("input")
+            file_selector.setAttribute("type", "file");
+            content.appendChild(file_selector);
+            var pond = FilePond.create(file_selector, {credits: false});
+            pond.on('addfile', (error, file) => {
+                if (error) {
+                    alert("Failed !")
+                }
+                jsonurl = file.file.name;
+                file.file.text().then(text => {
+                    if(file.file.type == "application/json"){
+                        mainfunc(JSON.parse(text));
+                    }
+                    else if(file.file.type == "text/javascript"){
+                        eval(text);
+                    }
+                    else{
+                        mainfunc(parse_pyobj(text));
+                    }
+                    if(jsonurl)load_color_from_cookies();
+                })
+            });
         }
     }
 };
 shrink.onclick();
-var tmpcolor;
-tmpcolor = Cookies.get(jsonurl + "color_selector");
-if(tmpcolor != null){
-    color_selector.value = tmpcolor;
-    color_selector.onchange();
-}
-tmpcolor = Cookies.get(jsonurl + "bg_color_selector");
-if(tmpcolor != null){
-    bg_color_selector.value = tmpcolor;
-    bg_color_selector.onchange();
-}
-tmpcolor = Cookies.get(jsonurl + "ft_color_selector");
-if(tmpcolor != null){
-    ft_color_selector.value = tmpcolor;
-    ft_color_selector.onchange();
-}
+if(jsonurl)load_color_from_cookies();
