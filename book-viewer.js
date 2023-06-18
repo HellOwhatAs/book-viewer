@@ -1,4 +1,3 @@
-var content_data = {};
 var shrink = document.getElementById("shrink");
 var content = document.getElementById("content");
 var color_selector = document.getElementById("color_selector");
@@ -126,9 +125,6 @@ async function readFileContent() {
 }
 
 function mainfunc(data) {
-    for(let key in content_data){
-        delete content_data[key];
-    }
     data.forEach(elem => {
         if(Object.prototype.toString.call(elem)=="[object Object]"){
             var user_script = document.createElement(elem["tag"]);
@@ -158,7 +154,6 @@ function mainfunc(data) {
             var cpt = document.createElement("div")
             cpt.classList.add("cpt");
             cpt.title = elem[0];
-            content_data[elem[0]] = elem[1];
             cpt.innerHTML = elem[0];
 
             page_command_hooks[elem[0]] = [];
@@ -176,7 +171,7 @@ function mainfunc(data) {
                 var title = document.createElement("center");
                 title.innerHTML = "<h1>" + elem[0]+ "</h1>";
                 content.appendChild(title);
-                content_data[elem[0]].forEach(element => {
+                elem[1].forEach(element => {
                     var para = document.createElement("p");
                     para.innerHTML = element;
                     content.appendChild(para);
