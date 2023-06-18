@@ -14,7 +14,7 @@ color_selector.onchange = () => {
     Cookies.set(jsonurl + "color_selector", color_selector.value);
 }
 bg_color_selector.onchange = () => {
-    document.body.style.backgroundColor = bg_color_selector.value;
+    document.documentElement.style.setProperty('--color-bg', bg_color_selector.value);
     Cookies.set(jsonurl + "bg_color_selector", bg_color_selector.value);
 }
 ft_color_selector.onchange = () => {
