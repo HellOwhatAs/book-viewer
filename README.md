@@ -1,5 +1,6 @@
 # book-viewer on windows
 ## C++ Dependency
+- C++ 17
 - https://github.com/webview/webview
 - https://github.com/nlohmann/json
 ## Input
