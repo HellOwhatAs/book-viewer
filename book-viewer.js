@@ -192,7 +192,7 @@ function mainfunc(data) {
 }
 
 if(typeof(datafunc) == "undefined"){
-    shrink.style.display = "none";
+    shrink.hidden = true;
     var file_selector = document.createElement("input")
     file_selector.setAttribute("type", "file");
     content.appendChild(file_selector);
@@ -208,7 +208,7 @@ if(typeof(datafunc) == "undefined"){
             else{
                 mainfunc(parse_pyobj(text));
             }
-            shrink.style.display = "block";
+            shrink.hidden = false;
         })
     });
 }
