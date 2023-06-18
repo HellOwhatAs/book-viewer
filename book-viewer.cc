@@ -119,7 +119,7 @@ int main(int argc, char ** argv) {
 		RestoreWindow((HWND)w.window());
 		return "null";
 	});
-
+	static_cast<ICoreWebView2_3*>(w.m_webview)->SetVirtualHostNameToFolderMapping(L"book-viewer", L".", COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_DENY_CORS);
 	w.set_html(htmlbuffer.str());
 	w.set_size(1920, 1080, WEBVIEW_HINT_NONE);
 	ShowWindow((HWND)w.window(), SW_SHOWMAXIMIZED);
