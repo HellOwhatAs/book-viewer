@@ -35,80 +35,17 @@ void RestoreWindow(HWND hWnd) {
 	if (maximized)ShowWindow(hWnd, SW_SHOWMAXIMIZED);
 }
 
-void show_error_html() {
-	webview::webview w = webview::webview(1, NULL);
-	w.set_title("book-viewer: ERROR");
-	w.set_html(R"(
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<meta charset="utf-8">
-		</head>
-		<body>
-			<center><pre>[Usage]: book-viewer.exe &lt;path to json/py&gt;</pre></center>
-			<script>
-				var fullscreened = false;
-				document.onkeydown = (event) => {
-					if(event.key == 'F11'){
-						if(fullscreened){
-							RestoreWindow();
-							fullscreened = false;
-						}
-						else{
-							SetFullscreen();
-							fullscreened = true;
-						}
-					}
-				};
-			</script>
-		</body>
-	</html>
-	)");
-	w.bind("SetFullscreen", [&](const std::string& req) -> std::string {
-		SetFullscreen((HWND)w.window());
-		return "null";
-	});
-
-	w.bind("RestoreWindow", [&](const std::string& req) -> std::string {
-		RestoreWindow((HWND)w.window());
-		return "null";
-	});
-	w.run();
-}
-
 int main(int argc, char ** argv) {
+
+	webview::webview w = webview::webview(1, NULL);
+	w.set_title("book-viewer");
+	
 	filesystem::path p(argv[0]);
-	if (argc != 2) {
-		show_error_html();
-		return 1;
-	}
-
-	json datatosend;
-	datatosend["ext"] = filesystem::path(argv[1]).extension().string();
-
-	if (datatosend["ext"] != ".json" && datatosend["ext"] != ".py") {
-		show_error_html();
-		return 1;
-	}
-
-	ifstream ifs(argv[1]);
-	stringstream buffer;
-	buffer << ifs.rdbuf();
-	ifs.close();
 
 	ifstream html(p.parent_path() / "index.html");
 	stringstream htmlbuffer;
 	htmlbuffer << html.rdbuf();
 	html.close();
-
-	webview::webview w = webview::webview(1, NULL);
-	w.set_title("book-viewer");
-	
-	if (datatosend["ext"] == ".json") datatosend["data"] = json::parse(buffer.str());
-	else datatosend["data"] = buffer.str();
-	w.bind("datafunc", [&](const std::string& req) -> std::string {
-		return datatosend.dump();
-	});
 
 	w.bind("SetFullscreen", [&](const std::string& req) -> std::string {
 		SetFullscreen((HWND)w.window());
@@ -122,6 +59,31 @@ int main(int argc, char ** argv) {
 	static_cast<ICoreWebView2_3*>(w.m_webview)->SetVirtualHostNameToFolderMapping(L"book-viewer", L".", COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_DENY_CORS);
 	w.set_html(htmlbuffer.str());
 	w.set_size(1920, 1080, WEBVIEW_HINT_NONE);
+
+	if (argc != 2) {
+		w.run();
+		return 0;
+	}
+
+	json datatosend;
+	datatosend["ext"] = filesystem::path(argv[1]).extension().string();
+
+	if (datatosend["ext"] != ".json" && datatosend["ext"] != ".py") {
+		w.run();
+		return 0;
+	}
+
+	ifstream ifs(argv[1]);
+	stringstream buffer;
+	buffer << ifs.rdbuf();
+	ifs.close();
+	
+	if (datatosend["ext"] == ".json") datatosend["data"] = json::parse(buffer.str());
+	else datatosend["data"] = buffer.str();
+	w.bind("datafunc", [&](const std::string& req) -> std::string {
+		return datatosend.dump();
+	});
+
 	ShowWindow((HWND)w.window(), SW_SHOWMAXIMIZED);
 	w.run();
 	return 0;

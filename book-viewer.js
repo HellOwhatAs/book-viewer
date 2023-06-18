@@ -191,12 +191,33 @@ function mainfunc(data) {
     user_scripts_loaded();
 }
 
-datafunc().then(data => {
-    if(data["ext"] == ".json"){
-        mainfunc(data["data"]);
-    }
-    else{
-        mainfunc(parse_pyobj(data["data"]));
-    }
-});
+if(typeof(datafunc) == "undefined"){
+    var file_selector = document.createElement("input")
+    file_selector.setAttribute("type", "file");
+    content.appendChild(file_selector);
+    var pond = FilePond.create(file_selector, {credits: false});
+    pond.on('addfile', (error, file) => {
+        if (error) {
+            alert("Failed !")
+        }
+        file.file.text().then(text => {
+            if(file.file.type == "application/json"){
+                mainfunc(JSON.parse(text));
+            }
+            else{
+                mainfunc(parse_pyobj(text));
+            }
+        })
+    });
+}
+else{
+    datafunc().then(data => {
+        if(data["ext"] == ".json"){
+            mainfunc(data["data"]);
+        }
+        else{
+            mainfunc(parse_pyobj(data["data"]));
+        }
+    });
+}
 shrink.onclick();
