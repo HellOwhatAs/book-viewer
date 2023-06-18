@@ -2,6 +2,7 @@
 ## C++ Dependency
 - C++ 17
 - https://github.com/webview/webview
+  removed `private:` in [line 2007 of `webview.h`](https://github.com/webview/webview/blob/899018ad0e5cc22a18cd734393ccae4d55e3b2b4/webview.h#LL2007C1-L2007C1) to expose `m_webview`
 - https://github.com/nlohmann/json
 ## Input
 ### python (json) format
