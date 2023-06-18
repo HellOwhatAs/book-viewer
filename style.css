@@ -189,8 +189,20 @@ h1{
     font-size: var(--font-size);
     overflow: visible;
 }
-#catalog::-webkit-scrollbar { display: none; }
-body::-webkit-scrollbar { display: none; }
+#catalog::-webkit-scrollbar {
+    background-color: rgba(0,0,0,0);
+    width: max(0.6vw, 5px);
+}
+#catalog::-webkit-scrollbar-thumb {
+    background: var(--color-font);
+}
+body::-webkit-scrollbar {
+    background-color: rgba(0,0,0,0);
+    width: max(0.6vw, 5px);
+}
+body::-webkit-scrollbar-thumb {
+    background: var(--color-font);
+}
 #catalog > div.cpt{
     width: 100%;
     background-color: gray;
