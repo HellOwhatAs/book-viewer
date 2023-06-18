@@ -251,6 +251,7 @@ else{
             }));
         }
         else{
+            shrink.style.display = "none";
             var file_selector = document.createElement("input")
             file_selector.setAttribute("type", "file");
             content.appendChild(file_selector);
@@ -270,6 +271,7 @@ else{
                     else{
                         mainfunc(parse_pyobj(text));
                     }
+                    shrink.style.display = "block";
                     if(jsonurl)load_color_from_cookies();
                 })
             });
