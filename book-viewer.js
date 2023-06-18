@@ -251,7 +251,7 @@ else{
             }));
         }
         else{
-            shrink.style.display = "none";
+            shrink.hidden = true;
             var file_selector = document.createElement("input")
             file_selector.setAttribute("type", "file");
             content.appendChild(file_selector);
@@ -271,7 +271,7 @@ else{
                     else{
                         mainfunc(parse_pyobj(text));
                     }
-                    shrink.style.display = "block";
+                    shrink.hidden = false;
                     if(jsonurl)load_color_from_cookies();
                 })
             });
