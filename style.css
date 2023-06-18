@@ -36,7 +36,7 @@
     #catalog{
         position: fixed;
         width: 13%;
-        height:100vh;
+        max-height: 100vh;
         left: 0%;
         top: 0%;
         overflow: auto;
@@ -90,6 +90,7 @@
     #catalog{
         position: fixed;
         width: 40%;
+        max-height: 100vh;
         left: 0%;
         top: 0%;
         overflow: auto;
