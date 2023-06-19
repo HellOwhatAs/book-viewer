@@ -48,6 +48,7 @@
         left: 0%;
         top: 0%;
         overflow: auto;
+        z-index: 10;
     }
     #shrink{
         position: fixed;
@@ -102,6 +103,7 @@
         left: 0%;
         top: 0%;
         overflow: auto;
+        z-index: 10;
     }
     #shrink{
         position: fixed;
