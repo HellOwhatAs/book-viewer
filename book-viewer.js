@@ -6,7 +6,6 @@ var ft_color_selector = document.getElementById("ft_color_selector");
 var catalog = document.getElementById("catalog");
 var activated_cpt;
 var command_hooks = [];
-var page_command_hooks = {};
 var user_scripts = new Set();
 color_selector.onchange = () => {
     document.documentElement.style.setProperty('--color-content', color_selector.value);
@@ -156,9 +155,9 @@ function mainfunc(data) {
             cpt.title = elem[0];
             cpt.innerHTML = elem[0];
 
-            page_command_hooks[elem[0]] = [];
+            var page_commands = [];
             for(var i = 2; i < elem.length; i++){
-                page_command_hooks[elem[0]].push(elem[i]);
+                page_commands.push(elem[i]);
             }
 
             cpt.onclick = () => {
@@ -199,7 +198,7 @@ function mainfunc(data) {
                 document.body.scrollIntoView();
                 catalog.scrollTop = activated_cpt.offsetTop - catalog.clientHeight / 2 + activated_cpt.clientHeight / 2;
 
-                page_command_hooks[elem[0]].forEach(cmd => eval(cmd));
+                page_commands.forEach(cmd => eval(cmd));
                 command_hooks.forEach(cmd => eval(cmd));
             }
             catalog.appendChild(cpt);
