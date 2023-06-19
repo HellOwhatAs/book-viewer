@@ -40,6 +40,7 @@
         left: 0%;
         top: 0%;
         overflow: auto;
+        z-index: 10;
     }
     #shrink{
         position: fixed;
@@ -94,6 +95,7 @@
         left: 0%;
         top: 0%;
         overflow: auto;
+        z-index: 10;
     }
     #shrink{
         position: fixed;
@@ -185,6 +187,10 @@ h1{
 #catalog::-webkit-scrollbar {
     background-color: rgba(0,0,0,0);
     width: max(0.6vw, 5px);
+    height: max(0.6vw, 5px);
+}
+#catalog::-webkit-scrollbar-corner{
+    background: var(--color-font);
 }
 #catalog::-webkit-scrollbar-thumb {
     background: var(--color-font);
@@ -192,6 +198,10 @@ h1{
 body::-webkit-scrollbar {
     background-color: rgba(0,0,0,0);
     width: max(0.6vw, 5px);
+    height: max(0.6vw, 5px);
+}
+body::-webkit-scrollbar-corner{
+    background: var(--color-font);
 }
 body::-webkit-scrollbar-thumb {
     background: var(--color-font);
